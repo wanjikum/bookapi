@@ -16,54 +16,15 @@ let db = mongoose.connect('mongodb://localhost/bookapi', {useMongoClient: true})
 let Book = require('./models/bookModel');
 
 // Creating an instance of react router
-let bookRouter = express.Router();
+let bookRouter = require('./routes/bookRoutes')(Book);
 
-bookRouter.route("/books")
-    .post(function(req, res){
-       console.log("This is the req body", req.body);
-       // creating a new instance of mongo
-       let book = new Book(req.body); 
-
-       // saves the instance into the database
-       book.save();
-       console.log(book);
-       // send status 201 which means created
-       res.status(201).send(book);
-    }) 
-    .get(function(req,res){
-        let query = {};
-        if(req.query.genre){
-            query.genre = req.query.genre;
-        }
-        console.log(req.query);
-        Book.find(query, function(err,books){
-            if(err){
-                return res.status(500).send(err)
-            }
-            else{
-                res.json(books);
-            }
-        });
-    })
-
-    bookRouter.route("/books/:bookId")
-    .get(function(req,res){
-        console.log(req.params.bookId);
-        Book.findById(req.params.bookId, function(err,books){
-            if(err){
-                return res.status(500).send(err)
-            } 
-            else{
-                res.json(books)
-            }
-        });
-    })
 
 // do an app.use and setup a base for where our API route is going to be
 // Lets do a /api and then we'll pass in the router and that will take care of
 // all of the routes up into app.use
 //  This is a cleaner way to do our api routing
-app.use('/api', bookRouter);
+app.use('/api/books', bookRouter);
+// app.use('/api/authors', authorRouter);
 
 
 
