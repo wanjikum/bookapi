@@ -3,12 +3,19 @@ let bookController = function(Book){
         console.log("This is the req body", req.body);
         // creating a new instance of mongo
         let book = new Book(req.body); 
- 
-        // saves the instance into the database
-        book.save();
-        console.log(book);
-        // send status 201 which means created
-        res.status(201).send(book);
+
+        //check if the title is there
+        if(!req.body.title){
+            res.status(400);
+            res.send("Title is required");
+        }else{
+            // saves the instance into the database
+            book.save();
+            console.log(book);
+            // send status 201 which means created
+            res.status(201);
+            res.send(book);
+        }
      }
 
      let get = function(req,res){

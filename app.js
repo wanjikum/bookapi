@@ -11,7 +11,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 
-let db = mongoose.connect('mongodb://localhost/bookapi', {useMongoClient: true});
+let db;
+if(process.env.ENV == 'Testing'){
+    db = mongoose.connect('mongodb://localhost/bookapi_testing', {useMongoClient: true});
+}else{
+    db = mongoose.connect('mongodb://localhost/bookapi', {useMongoClient: true});
+}
 
 let Book = require('./models/bookModel');
 
