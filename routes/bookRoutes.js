@@ -9,13 +9,11 @@ let route = function(Book){
 
         bookRouter.use('/:bookId', function(req, res, next){
 
-            console.log(req);
             Book.findById(req.params.bookId, function(err,book){
                 if(err){
                     return res.status(500).send(err)
                 }
                 else if(book){
-                    console.log(book);
                     req.book = book;
                     next();
                 }
@@ -34,7 +32,6 @@ let route = function(Book){
             res.json(returnBook);
         })
         .put(function(req,res){
-            console.log(req.body);
             req.book.title = req.body.title;
             req.book.genre = req.body.genre;
             req.book.author = req.body.author;
@@ -51,12 +48,10 @@ let route = function(Book){
             res.json(req.book)     
             })
         .patch(function(req,res){
-            console.log(req.body);
             if(req.body._id){
                 delete req.body._id;
             }
             for(let item in req.body){
-                console.log(req.book[item]);
                 req.book[item] = req.body[item]
             }
             req.book.save(function(err){

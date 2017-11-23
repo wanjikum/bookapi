@@ -1,6 +1,6 @@
 let bookController = function(Book){
     let post = function(req, res){
-        console.log("This is the req body", req.body);
+        
         // creating a new instance of mongo
         let book = new Book(req.body); 
 
@@ -11,7 +11,6 @@ let bookController = function(Book){
         }else{
             // saves the instance into the database
             book.save();
-            console.log(book);
             // send status 201 which means created
             res.status(201);
             res.send(book);
